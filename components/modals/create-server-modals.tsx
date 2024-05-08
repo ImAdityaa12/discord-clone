@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import axios from "axios";
 import {
   Dialog,
   DialogContent,
@@ -23,9 +23,11 @@ import {
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import FileUpload from "../file-upload";
+import { redirect, useRouter } from "next/navigation";
 
 const CreateServerModal = () => {
   const [isMounted, setIsMounded] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     setIsMounded(true);
   }, []);
@@ -48,7 +50,17 @@ const CreateServerModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    try {
+      const server = await axios.post("/api/servers", values);
+      // router.refresh();
+      // window.location.reload();
+      console.log(server);
+      if (server) {
+        router.push(`servers/${server.data.id}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   if (!isMounted) {
     return null;
