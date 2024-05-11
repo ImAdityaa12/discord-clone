@@ -1,4 +1,4 @@
-import CreateServerModal from "@/components/modals/create-server-modals";
+import InitialModal from "@/components/modals/initial-modal";
 import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initalProfile";
 import { UserButton } from "@clerk/nextjs";
@@ -18,7 +18,7 @@ const page = async () => {
 
   return (
     <div>
-      <CreateServerModal />
+      <InitialModal />
       {/* <UserButton /> */}
     </div>
   );

@@ -25,7 +25,7 @@ import { Button } from "../ui/button";
 import FileUpload from "../file-upload";
 import { redirect, useRouter } from "next/navigation";
 
-const CreateServerModal = () => {
+const InitialModal = () => {
   const [isMounted, setIsMounded] = useState(false);
   const router = useRouter();
   useEffect(() => {
@@ -133,4 +133,4 @@ const CreateServerModal = () => {
   );
 };
 
-export default CreateServerModal;
+export default InitialModal;
