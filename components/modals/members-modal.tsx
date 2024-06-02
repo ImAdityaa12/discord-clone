@@ -44,15 +44,25 @@ const MembersModal = () => {
     useState<ServerWithMembersWithProfiles | null>(null);
   const [loadingId, setLoadingId] = useState<string>("");
   const server: ServerWithMembersWithProfiles | null = data?.server || null;
+  const onKick = async (memberId: string) => {
+    try {
+      if (serverData) {
+        setLoadingId(memberId);
+        const url = `/api/members/${memberId}`;
+        const response = await axios.delete(url, {
+          data: { serverId: serverData.id || "" },
+        });
+        onOpen("members", { server: response.data });
+        router.refresh();
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onRoleChange = async (memberId: string, role: MemberRole) => {
     try {
       setLoadingId(memberId);
-      // const url = qs.stringify({
-      //   url: `/api/members/${memberId}`,
-      //   query: {
-      //     serverId: server?.id,
-      //   },
-      // });
       const response = await axios.patch(`/api/members/${memberId}`, {
         role,
         serverId: server?.id,
@@ -138,7 +148,7 @@ const MembersModal = () => {
                           </DropdownMenuPortal>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onKick(member.id)}>
                           <Gavel className="h-4 w-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
