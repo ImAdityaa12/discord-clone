@@ -12,7 +12,7 @@ interface inviteCodePageProps {
 const InviteCodePage = async ({ params }: inviteCodePageProps) => {
   const profile = await currentProfile();
   if (!profile) {
-    return redirect("/signin");
+    return redirect("/sign-in");
   }
   if (!params.inviteCode) {
     return redirect("/");
