@@ -34,22 +34,27 @@ const ServerSideBar = async ({ serverId }: Props) => {
       },
     },
   });
-  const textChannels = server?.channels.filter(
+
+  if (!server) {
+    return redirect("/");
+  }
+
+  const textChannels = server.channels.filter(
     (channel) => channel.type === ChannelType.TEXT
   );
-  const audioChannels = server?.channels.filter(
+  const audioChannels = server.channels.filter(
     (channel) => channel.type === ChannelType.AUDIO
   );
-  const videoChannels = server?.channels.filter(
+  const videoChannels = server.channels.filter(
     (channel) => channel.type === ChannelType.VIDEO
   );
-  const members = server?.members.filter(
-    (member) => member.profileId !== profile?.id
+  const members = server.members.filter(
+    (member) => member.profileId !== profile.id
   );
-  const role = server?.members.find(
+  const role = server.members.find(
     (member) => member.profileId === profile.id
   )?.role;
-  // console.log(textChannels, audioChannels, videoChannels, role);
+
   return (
     <div className="w-full h-full text-primary flex flex-col dark:bg-[#2B2D31] bg-[]">
       <ServerHeader server={server} role={role} />
